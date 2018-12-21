@@ -6,6 +6,6 @@ from .views import (
 
 app_name = "feh"
 urlpatterns = [
-    path("~ar_calculator/", view=aether_lift_calculator, name="arcalc"),
+    path("ar_calculator/", view=aether_lift_calculator, name="arcalc"),
 ]
 
