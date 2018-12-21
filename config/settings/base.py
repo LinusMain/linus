@@ -39,9 +39,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 
 DATABASES = {
-    'default': env.db('DATABASE_URL', default='postgres:///linus'),
+    'default': env.db('DATABASE_URL', default='postgres://linus:linus@localhost/linus'),
 }
 DATABASES['default']['ATOMIC_REQUESTS'] = True
+
 
 # URLS
 # ------------------------------------------------------------------------------
@@ -71,6 +72,7 @@ THIRD_PARTY_APPS = [
 ]
 LOCAL_APPS = [
     'linus.users.apps.UsersAppConfig',
+    'linus.feh.apps.FehConfig',
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
