@@ -36,7 +36,7 @@ def Calc(aether, lift, resets, has_free_run=False, lift_gain=100, aether_max=200
       res.append('Aether: {0}, Lift: {1}'.format(current_aether, current_lift))
 
     # Do as many runs as you can
-    while current_aether > AetherCost(current_lift):
+    while current_aether >= AetherCost(current_lift):
       cost = AetherCost(current_lift)
       pot = Pot(current_lift)
       res.append('>>>Normal run. Pay {0}. Get {1} from pots'.format(cost, pot))
