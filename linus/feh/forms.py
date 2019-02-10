@@ -29,7 +29,7 @@ class AetherLiftForm(forms.Form):
                                               validators.MaxValueValidator(15)],
                                   initial=6)
 
-  has_free_run = forms.BooleanField(required=False, initial=True)
+  #has_free_run = forms.BooleanField(required=False, initial=True)
   lift_gain = forms.IntegerField(initial=100, validators=[validators.MinValueValidator(0),
                                                           validators.MaxValueValidator(1000)])
 

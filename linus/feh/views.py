@@ -4,12 +4,12 @@ from django.views.generic.edit import FormView
 from . import forms
 
 def AetherCost(lift):
-  return (lift + 99) // 100 + 9
+  return min(50, (lift + 99) // 100 + 9)
 
 def Pot(lift):
-  return ((lift // 100) + 10) // 5
+  return min(10, ((lift // 100) + 10) // 5)
 
-def Calc(aether, lift, resets, has_free_run=False, lift_gain=100, aether_max=200, aether_regen=50):
+def Calc(aether, lift, resets, lift_gain=100, aether_max=200, aether_regen=50):
   res = []
   current_aether = aether
   current_lift = lift
@@ -26,14 +26,14 @@ def Calc(aether, lift, resets, has_free_run=False, lift_gain=100, aether_max=200
       current_aether = min(current_aether, aether_max)
 
     # Do Free Run
-    if has_free_run or x:
-      pot_q = Pot(current_lift)
-      res.append('>>>Free run. Pay 0. Get {0} from pots'.format(pot_q))
-      current_aether += pot_q
-      current_aether = min(current_aether, aether_max)
-      current_lift += lift_gain
-      pot_gains.append(pot_q)
-      res.append('Aether: {0}, Lift: {1}'.format(current_aether, current_lift))
+    #if has_free_run or x:
+    #  pot_q = Pot(current_lift)
+    #  res.append('>>>Free run. Pay 0. Get {0} from pots'.format(pot_q))
+    #  current_aether += pot_q
+    #  current_aether = min(current_aether, aether_max)
+    #  current_lift += lift_gain
+    #  pot_gains.append(pot_q)
+    #  res.append('Aether: {0}, Lift: {1}'.format(current_aether, current_lift))
 
     # Do as many runs as you can
     while current_aether >= AetherCost(current_lift):
@@ -82,7 +82,6 @@ class AetherLiftCalculator(FormView):
     log, aether, lift, can_miss, matches = Calc(form.cleaned_data['aether'],
                                                 form.cleaned_data['lift'],
                                                 form.cleaned_data['reset_left'],
-                                                form.cleaned_data['has_free_run'],
                                                 form.cleaned_data['lift_gain'],
                                                 form.cleaned_data['aether_storage_max'],
                                                 form.cleaned_data['aether_regen'],)
