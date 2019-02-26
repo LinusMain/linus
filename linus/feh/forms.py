@@ -33,7 +33,7 @@ class AetherLiftForm(forms.Form):
   lift_gain = forms.IntegerField(initial=100, validators=[validators.MinValueValidator(0),
                                                           validators.MaxValueValidator(1000)])
 
-  aether_storage_max = forms.IntegerField(initial=200, validators=[validators.MinValueValidator(100),
+  aether_storage_max = forms.IntegerField(initial=250, validators=[validators.MinValueValidator(100),
                                                                    validators.MaxValueValidator(1000)])
 
   aether_regen = forms.IntegerField(initial=70, validators=[validators.MinValueValidator(0),
