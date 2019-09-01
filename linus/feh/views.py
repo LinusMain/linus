@@ -1,7 +1,12 @@
+import sys
+
 from django.shortcuts import render
 from django.views.generic.edit import FormView
 
+from linus.feh.lucksack_calc import FehSnipeProbability
+
 from . import forms
+
 
 def AetherCost(lift):
   return min(50, (lift + 99) // 100 + 9)
@@ -94,4 +99,64 @@ class AetherLiftCalculator(FormView):
     return self.get(form)
 
 aether_lift_calculator = AetherLiftCalculator.as_view()
+
+
+class LucksackCalculator(FormView):
+  template_name = 'feh/lucksack.html'
+  form_class = forms.LucksackForm
+  res = ''
+
+  def get_context_data(self, *args, **kwargs):
+    context = FormView.get_context_data(self, *args, **kwargs)
+    context['res'] = self.res
+    return context
+
+  def form_valid(self, form):
+
+    orbs = form.cleaned_data.get('orbs')
+
+    ssr_focus = form.cleaned_data.get('five_star_focus_chance_total')
+    ssr_pity = form.cleaned_data.get('five_star_pitybreaker_chance_total')
+
+    ssr_f_sc = form.cleaned_data.get('number_of_other_focus_units_with_the_same_color_as_target')
+    ssr_f_wc = form.cleaned_data.get('number_of_other_focus_units_with_different_color_than_target')
+
+    ssr_n_sc = form.cleaned_data.get('number_of_five_star_units_with_the_same_color_as_target')
+    ssr_n_wc = form.cleaned_data.get('number_of_five_star_units_with_different_color_than_target')
+
+    com_n_sc = form.cleaned_data.get('number_of_four_star_or_lower_units_with_the_same_color_as_target')
+    com_n_wc = form.cleaned_data.get('number_of_four_star_or_lower_units_with_different_color_than_target')
+
+    already_in_pool = form.cleaned_data.get('is_target_unit_already_in_summonable_pool')
+
+    total_focus_units = 1 + ssr_f_sc + ssr_f_wc
+    total_ssr_units = ssr_n_sc + ssr_n_wc
+    total_com_units = com_n_sc + com_n_wc
+
+    units = [
+      (1, 'red', 1, ssr_focus / total_focus_units),
+      (2, 'red', 1, ssr_f_sc * ssr_focus / total_focus_units),
+      (3, 'blue', 1, ssr_f_wc * ssr_focus / total_focus_units),
+      #(4, 'red', 1, ssr_n_sc * ssr_pity / total_ssr_units),
+      (5, 'blue', 1, ssr_n_wc * ssr_pity / total_ssr_units),
+      (6, 'red', 0, com_n_sc * (1.0 - ssr_focus - ssr_pity) / total_com_units),
+      (7, 'blue', 0, com_n_wc * (1.0 - ssr_focus - ssr_pity) / total_com_units),
+    ]
+    if already_in_pool:
+      units.append((1, 'red', 1, ssr_pity / total_ssr_units))
+      units.append((4, 'red', 1, (ssr_n_sc - 1) * ssr_pity / total_ssr_units))
+    else:
+      units.append((4, 'red', 1, ssr_n_sc * ssr_pity / total_ssr_units))
+
+    sys.setrecursionlimit(10000)
+    sackchance = FehSnipeProbability(orbs, units, 1)
+    self.res = list(enumerate(sackchance))
+
+    return self.get(form)
+
+lucksack_calculator = LucksackCalculator.as_view()
+
+
+
+
 

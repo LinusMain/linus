@@ -49,3 +49,80 @@ class AetherLiftForm(forms.Form):
     self.fields['reset_left'].initial = remain
     self.fields['aether'].widget.attrs.update({'autofocus': 'autofocus'})
 
+
+
+class LucksackForm(forms.Form):
+  orbs = forms.IntegerField(
+      validators=[validators.MinValueValidator(0),
+                  validators.MaxValueValidator(1000)]
+  )
+
+  five_star_focus_chance_total = forms.FloatField(
+      validators=[validators.MinValueValidator(0),
+                  validators.MaxValueValidator(1)],
+      initial=0.03
+  )
+  five_star_pitybreaker_chance_total = forms.FloatField(
+      validators=[validators.MinValueValidator(0),
+                  validators.MaxValueValidator(1)],
+      initial=0.03
+  )
+
+  number_of_other_focus_units_with_the_same_color_as_target = forms.IntegerField(
+      validators=[validators.MinValueValidator(0),
+                  validators.MaxValueValidator(10000)],
+      initial=0
+  )
+  number_of_other_focus_units_with_different_color_than_target = forms.IntegerField(
+      validators=[validators.MinValueValidator(0),
+                  validators.MaxValueValidator(10000)],
+      initial=2
+  )
+
+  number_of_five_star_units_with_the_same_color_as_target = forms.IntegerField(
+      validators=[validators.MinValueValidator(0),
+                  validators.MaxValueValidator(10000)],
+      initial=30
+  )
+
+  number_of_five_star_units_with_different_color_than_target = forms.IntegerField(
+      validators=[validators.MinValueValidator(0),
+                  validators.MaxValueValidator(10000)],
+      initial=100
+  )
+
+  number_of_four_star_or_lower_units_with_the_same_color_as_target = forms.IntegerField(
+      validators=[validators.MinValueValidator(0),
+                  validators.MaxValueValidator(10000)],
+      initial=100
+  )
+
+  number_of_four_star_or_lower_units_with_different_color_than_target = forms.IntegerField(
+      validators=[validators.MinValueValidator(0),
+                  validators.MaxValueValidator(10000)],
+      initial=300
+  )
+
+  is_target_unit_already_in_summonable_pool = forms.BooleanField(
+      required=False,
+      initial=False
+  )
+
+  def clean(self):
+    cleaned_data = super().clean()
+
+    f1 = cleaned_data.get('number_of_four_star_or_lower_units_with_the_same_color_as_target')
+    f2 = cleaned_data.get('number_of_four_star_or_lower_units_with_different_color_than_target')
+    if f1 + f2 == 0:
+      raise forms.ValidationError('Ensure at least one four star or lower units')
+
+    f1 = cleaned_data.get('five_star_focus_chance_total')
+    f2 = cleaned_data.get('five_star_pitybreaker_chance_total')
+    if f1 + f2 > 1:
+      raise forms.ValidationError('Sum of focus and pitybreaker chances must be at most 1')
+
+    if cleaned_data.get('is_target_unit_already_in_summonable_pool'):
+      f1 = cleaned_data.get('number_of_five_star_units_with_the_same_color_as_target')
+      if f1 < 1:
+        raise forms.ValidationError('if unit already in summonable pool, must exist at least one ssr unit with same color')
+
