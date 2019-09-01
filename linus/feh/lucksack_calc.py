@@ -123,7 +123,6 @@ def FehSnipeProbability(orbs, units, target_unit_id):
   foundpity = False
   for unit_id, color_id, is_break_pity, chance in units:
     if unit_id == target_unit_id:
-      assert not found
       found = True
       target_color = color_id
 
