@@ -24,13 +24,14 @@ class AetherLiftForm(forms.Form):
   aether = forms.IntegerField(validators=[validators.MinValueValidator(0),
                                           validators.MaxValueValidator(1000)])
   lift = forms.IntegerField(validators=[validators.MinValueValidator(0),
-                                        validators.MaxValueValidator(100000)])
+                                        validators.MaxValueValidator(100000)],
+                            initial=11000)
   reset_left = forms.IntegerField(validators=[validators.MinValueValidator(0),
                                               validators.MaxValueValidator(15)],
                                   initial=6)
 
   #has_free_run = forms.BooleanField(required=False, initial=True)
-  lift_gain = forms.IntegerField(initial=100, validators=[validators.MinValueValidator(0),
+  lift_gain = forms.IntegerField(initial=160, validators=[validators.MinValueValidator(0),
                                                           validators.MaxValueValidator(1000)])
 
   aether_storage_max = forms.IntegerField(initial=250, validators=[validators.MinValueValidator(100),

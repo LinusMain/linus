@@ -34,8 +34,14 @@
               <td>Total matches</td>
               <td>{{ res.matches }}</td>
             </tr>
+            {% for match in res.breakdown %}
+              <tr>
+                <td>Number of {{ match.multiplier }}x matches</td>
+                <td>{{ match.num }}</td>
+              </tr>
+            {% endfor %}
             <tr>
-              <td>Max pots missed<br/>(excluding last match)</td>
+              <td>Max pots missed<br/>(excluding last match, assuming all runs are 1x multiplier)</td>
               <td>{{ res.can_miss }}</td>
             </tr>
           </tbody>

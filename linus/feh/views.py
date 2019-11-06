@@ -1,3 +1,4 @@
+from _collections import defaultdict
 import sys
 
 from django.shortcuts import render
@@ -7,6 +8,7 @@ from linus.feh.lucksack_calc import FehSnipeProbability
 
 from . import forms
 
+MULTIPLIER_MAX = 2
 
 def AetherCost(lift):
   return min(50, (lift + 99) // 100 + 9)
@@ -21,6 +23,10 @@ def Calc(aether, lift, resets, lift_gain=100, aether_max=200, aether_regen=50):
   res.append('Aether: {0}, Lift: {1}'.format(current_aether, current_lift))
 
   pot_gains = []
+  matches_multi = {}
+  for i in range(1, MULTIPLIER_MAX+1):
+    matches_multi[i] = 0
+
   for x in range(resets+1):
     res.append('')
     res.append('Start of day {0}/{1}'.format(x, resets))
@@ -40,16 +46,30 @@ def Calc(aether, lift, resets, lift_gain=100, aether_max=200, aether_regen=50):
     #  pot_gains.append(pot_q)
     #  res.append('Aether: {0}, Lift: {1}'.format(current_aether, current_lift))
 
-    # Do as many runs as you can
+    # Do double runs as much as you can, except last day.
     while current_aether >= AetherCost(current_lift):
+      if x < resets and current_aether + aether_regen <= aether_max:
+        # be lazy and do it later.
+        break
+
       cost = AetherCost(current_lift)
       pot = Pot(current_lift)
-      res.append('>>>Normal run. Pay {0}. Get {1} from pots'.format(cost, pot))
-      current_aether -= cost
-      current_aether += pot
-      pot_gains.append(pot)
+      multiplier = 1
+      if cost * 2 <= current_aether:
+        # do dubble match.
+        multiplier = 2
+
+      res.append('>>>{2}x run. Pay {0}. Get {1} from pots'.format(
+          cost * multiplier, pot * multiplier, multiplier))
+
+      matches_multi[multiplier] += 1
+
+      current_aether -= cost * multiplier
+      current_aether += pot * multiplier
+      for _ in range(multiplier):
+        pot_gains.append(pot)
       current_aether = min(current_aether, aether_max)
-      current_lift += lift_gain
+      current_lift += lift_gain * multiplier
       res.append('Aether: {0}, Lift: {1}'.format(current_aether, current_lift))
 
   # How many pots can I miss?
@@ -69,7 +89,7 @@ def Calc(aether, lift, resets, lift_gain=100, aether_max=200, aether_regen=50):
       else:
         break
 
-  return res, current_aether, current_lift, can_miss, len(pot_gains)
+  return res, current_aether, current_lift, can_miss, matches_multi
 
 
 
@@ -90,12 +110,18 @@ class AetherLiftCalculator(FormView):
                                                 form.cleaned_data['lift_gain'],
                                                 form.cleaned_data['aether_storage_max'],
                                                 form.cleaned_data['aether_regen'],)
+    matches_keys = matches.keys()
+    matches_result = []
+    for match_key in sorted(matches_keys):
+      matches_result.append(dict(multiplier=match_key,
+                                 num=matches[match_key]))
     self.res = dict(
       log='\n'.join(log),
       aether=aether,
       lift=lift,
       can_miss=can_miss,
-      matches=matches)
+      matches=sum(matches.values()),
+      breakdown = matches_result)
     return self.get(form)
 
 aether_lift_calculator = AetherLiftCalculator.as_view()
