@@ -31,6 +31,7 @@ docutils==0.14
 factory-boy==2.11.1
 Faker==1.0.1
 flake8==3.6.0
+gunicorn==20.0.4
 idna==2.8
 imagesize==1.1.0
 ipdb==0.11
