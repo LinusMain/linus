@@ -13,7 +13,11 @@ class HeroAdmin(AdminAdvancedFiltersMixin, admin.ModelAdmin):
                    'movement_type',
                    'weapon_type',
                    'color',
-                   'StatArray',
+                   'hp',
+                   'attack',
+                   'speed',
+                   'defense',
+                   'resistance',
                    'bst',)
 
   search_fields = ('name',
