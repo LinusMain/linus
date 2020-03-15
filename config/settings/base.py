@@ -61,6 +61,9 @@ DJANGO_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # 'django.contrib.humanize', # Handy template tags
+
+    # SPECIAL: need to be placed before django contrib admin
+    'admin_view_permission',
     'django.contrib.admin',
 ]
 THIRD_PARTY_APPS = [
@@ -69,10 +72,12 @@ THIRD_PARTY_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'rest_framework',
+    'advanced_filters',
 ]
 LOCAL_APPS = [
     'linus.users.apps.UsersAppConfig',
-    'linus.feh.apps.FehConfig',
+    #'linus.feh.apps.FehConfig',
+    'linus.feh',
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
