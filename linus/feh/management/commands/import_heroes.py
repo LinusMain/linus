@@ -3,6 +3,11 @@ Created on Sep 7, 2017
 
 @author: dolphinigle
 '''
+from datetime import date
+import datetime
+from time import strptime
+import time
+
 from django.core.management.base import BaseCommand
 
 from linus.feh import porocode
@@ -82,6 +87,7 @@ class Command(BaseCommand):
       )
 
       finalstat = hero.statArray
+      release_date = strptime(hero.releaseDate, '%Y-%m-%d')
 
       models.Hero.objects.create(
           name=hero.heroName,
@@ -100,6 +106,7 @@ class Command(BaseCommand):
           pullable_3star=hero.hero3Star,
           pullable_4star=hero.hero4Star,
           pullable_5star=hero.hero5Star,
+          release_date=date.fromtimestamp(time.mktime(release_date)),
       )
 
 

@@ -18,18 +18,29 @@ class HeroAdmin(AdminAdvancedFiltersMixin, admin.ModelAdmin):
                    'speed',
                    'defense',
                    'resistance',
-                   'bst',)
+                   'bst',
+                   'generation',
+                   )
 
   search_fields = ('name',
                    'title',
                    'movement_type',
                    'weapon_type',
-                   'color',)
+                   'color',
+                   'availability',)
 
   list_filter = ('is_f2p',
                  'movement_type',
                  'weapon_type',
-                 'color',)   # simple list filters
+                 'color',
+                 'availability',
+                 'book',
+                 'generation',
+                 'pullable_3star',
+                 'pullable_4star',
+                 'pullable_5star',
+                 )
+  # simple list filters
 
   # specify which fields can be selected in the advanced filter
   # creation form
@@ -45,7 +56,9 @@ class HeroAdmin(AdminAdvancedFiltersMixin, admin.ModelAdmin):
                             'speed',
                             'defense',
                             'resistance',
-                            'bst',)
+                            'bst',
+                            'book',
+                            'generation',)
 
 
 
