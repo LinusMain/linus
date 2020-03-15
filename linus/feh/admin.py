@@ -36,6 +36,7 @@ class HeroAdmin(AdminAdvancedFiltersMixin, admin.ModelAdmin):
   advanced_filter_fields = ('name',
                             'title',
                             'is_f2p',
+                            'availability',
                             'movement_type',
                             'weapon_type',
                             'color',

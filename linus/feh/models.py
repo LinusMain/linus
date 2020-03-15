@@ -158,11 +158,11 @@ class Hero(models.Model):
   color = models.CharField(max_length=15, choices=COLOR_PAIRS)
 
   hp = models.IntegerField()
-  attack = models.IntegerField()
-  speed = models.IntegerField()
-  defense = models.IntegerField()
-  resistance = models.IntegerField()
-  bst = models.IntegerField()
+  attack = models.IntegerField('atk')
+  speed = models.IntegerField('spd')
+  defense = models.IntegerField('def')
+  resistance = models.IntegerField('res')
+  bst = models.IntegerField('BST')
 
   pullable_3star = models.BooleanField()
   pullable_4star = models.BooleanField()
