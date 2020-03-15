@@ -304,7 +304,7 @@ def digestHero(inputfile):
             return None
         line = line.rstrip()
         if ":" in line:
-            heroName = urlStrip(line.split(":")[0])
+            heroName = urlStrip(line.split(":_")[0]).replace("_", " ")
             heroMod = urlStrip(line.split(":_")[1]).replace("_", " ")
             hero = Hero(heroName, heroMod)
         elif line.endswith("_Heroes"):
