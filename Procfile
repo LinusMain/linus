@@ -1,3 +1,3 @@
-release: python manage.py import_heroes parsed_heroes.txt
+release: python manage.py import_heroes heroes_parsed.txt
 web: gunicorn config.wsgi:application
 
