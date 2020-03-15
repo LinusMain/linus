@@ -196,6 +196,14 @@ class Hero(models.Model):
     return '{0}: {1}'.format(self.name, self.title)
 
   def ComputeGeneration(self):
+    if (self.name, self.title) in [
+        ('Bantu', "Tiki's Guardian"),
+        ('Chad', 'Lycian Wildcat'),
+        ('Tanya', "Dagdar's Kid"),
+        ('Ross', "His Father's Son"),
+        ('Valbar', 'Open and Honest'),]:
+      return 3
+
     if self.release_date >= date(day=16, month=8, year=2019):
       return 4
     if self.release_date >= date(day=27, month=2, year=2019):
