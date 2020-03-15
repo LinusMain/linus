@@ -159,10 +159,10 @@ class Hero(models.Model):
   is_f2p = models.BooleanField('f2p')
 
   # MOVEMENT_TYPE.INFANTRY
-  movement_type = models.CharField(max_length=15, choices=MOVEMENT_TYPE_PAIRS)
+  movement_type = models.CharField('move', max_length=15, choices=MOVEMENT_TYPE_PAIRS)
 
   # WEAPON_TYPE.AXE
-  weapon_type = models.CharField(max_length=15, choices=WEAPON_TYPE_PAIRS)
+  weapon_type = models.CharField('weapon', max_length=15, choices=WEAPON_TYPE_PAIRS)
 
   # COLOR.GREEN
   color = models.CharField(max_length=15, choices=COLOR_PAIRS)
