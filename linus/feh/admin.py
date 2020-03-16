@@ -58,7 +58,8 @@ class HeroAdmin(AdminAdvancedFiltersMixin, admin.ModelAdmin):
                             'resistance',
                             'bst',
                             'book',
-                            'generation',)
+                            'generation',
+                            'release_date',)
 
 
 
