@@ -13,7 +13,7 @@ coreschema==0.0.4
 coverage==4.5.2
 decorator==4.3.0
 defusedxml==0.5.0
-Django==2.0.9
+Django==2.2.10
 django-admin-view-permission==1.9
 django-advanced-filters==1.1.1
 django-allauth==0.38.0
