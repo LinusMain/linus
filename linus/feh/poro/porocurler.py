@@ -31,6 +31,11 @@ def CurlAll():
     skillFolder = os.path.join(file_root, 'skills')
     wikiPage = 'https://feheroes.gamepedia.com'
 
+    if not os.path.isdir(heroFolder):
+        os.mkdir(heroFolder)
+    if not os.path.isdir(skillFolder):
+        os.mkdir(skillFolder)
+
     # TODO: wrap the lists with classes 
     # that support easy searching without
     # having to know lambdas and list comprehension
