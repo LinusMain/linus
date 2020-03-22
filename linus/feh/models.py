@@ -284,3 +284,6 @@ class Hero(models.Model):
   # Hidden
   # stat_details = JSONField()
 
+
+
+

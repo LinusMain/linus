@@ -73,6 +73,7 @@ THIRD_PARTY_APPS = [
     'allauth.socialaccount',
     'rest_framework',
     'advanced_filters',
+    'clear_cache',
 ]
 LOCAL_APPS = [
     'linus.users.apps.UsersAppConfig',
