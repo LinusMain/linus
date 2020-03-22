@@ -202,6 +202,13 @@ class Hero(object):
     # must be called by the parser 
     # before hero is ready for export
     def finalize(self):
+        # because leenis hates Flame_Emperor
+        self.name = self.name.replace("_", "")
+        # extract neutral stats and weapontype for easy fetching
+        self.statArray = [bnb[1] for bnb in self.lvl_40_Stats[4]]
+        self.weapon = self.weaponReqs[0][0].type
+        
+        # categories => color info
         if "Red Heroes" in self.categories:
             self.color = "Red"
         elif "Blue Heroes" in self.categories:
@@ -212,8 +219,8 @@ class Hero(object):
             self.color = "Colorless"
         else:
             raise ValueError(self, "has no colour in", self.categories)
-        self.statArray = [bnb[1] for bnb in self.lvl_40_Stats[4]]
-        self.weapon = self.weaponReqs[0][0].type
+       
+        # categories => source info
         if "Duo Heroes" in self.categories:
             self.heroSrc = "Duo"
         elif "Tempest Trials Heroes" in self.categories:
@@ -230,6 +237,8 @@ class Hero(object):
             self.heroSrc = "Special"
         else:
             self.heroSrc = "Normal"
+            
+        # categories => movement type info
         if "Infantry Heroes" in self.categories:
             self.move = "Infantry"
         elif "Cavalry Heroes" in self.categories:
