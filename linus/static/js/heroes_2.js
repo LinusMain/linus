@@ -72,4 +72,5 @@ $(document).ready(function() {
       }
       table.columns.adjust().draw();
     });
+    $('button.statdisplay-btn[data-id="normal"]').addClass('active');
 } );
