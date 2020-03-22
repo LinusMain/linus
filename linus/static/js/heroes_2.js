@@ -67,7 +67,7 @@ $(document).ready(function() {
       column_visibility.max = [9, 10, 11, 12, 13, 14];
       var mytype = $(this).attr('data-id');
       for (var i = 0; i < column_visibility[mytype].length; ++i) {
-        var column = table.column(all_columns[i]);
+        var column = table.column(column_visibility[mytype][i]);
         column.visible(true);
       }
       table.columns.adjust().draw();
