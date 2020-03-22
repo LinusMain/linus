@@ -33,7 +33,7 @@ AVAILABILITY_PAIRS = (
   (AVAILABILITY.LEGENDARY, 'Legendary Hero',),
   (AVAILABILITY.MYTHIC, 'Mythic Hero',),
   (AVAILABILITY.STORY, 'Story Hero',),
-  (AVAILABILITY.DUO, 'Duo',),
+  (AVAILABILITY.DUO, 'Duo Hero',),
 )
 
 AVAILABILITY_HUMAN_READABLE = dict(AVAILABILITY_PAIRS)
@@ -195,6 +195,24 @@ class Hero(models.Model):
   gamepedia_url = models.URLField()
 
   @property
+  def max_stats(self):
+    dragonflowers = 1
+    if self.movement_type == MOVEMENT_TYPE.INFANTRY and self.release_date <= date(day=7, month=2, year=2019):
+      dragonflowers = 2
+    add_stats = 4 + dragonflowers
+    return [
+        self.hp + add_stats,
+        self.attack + add_stats,
+        self.speed + add_stats,
+        self.defense + add_stats,
+        self.resistance + add_stats,
+    ]
+
+  @property
+  def max_bst(self):
+    return sum(self.max_stats)
+
+  @property
   def full_name(self):
     return '{0}: {1}'.format(self.name, self.title)
 
@@ -209,6 +227,10 @@ class Hero(models.Model):
   @property
   def generation_human(self):
     return 'Gen {0}'.format(self.generation)
+
+  @property
+  def availability_human(self):
+    return AVAILABILITY_HUMAN_READABLE[self.availability]
 
   @property
   def weapon_type_icon(self):

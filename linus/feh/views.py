@@ -1,12 +1,15 @@
-from _collections import defaultdict
 import sys
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
+from django.core.cache import cache
+from django.shortcuts import redirect
+from django.urls.base import reverse
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
 
 from linus.feh.lucksack_calc import FehSnipeProbability
+from linus.feh.poro.porocurler import CurlAll
+from linus.feh.poro.poropicklechecker import LoadPoro
 
 from . import forms, models
 
@@ -201,19 +204,42 @@ class HeroesList(TemplateView):
 
     generations = sorted(set([(hero.generation, ('txt', hero.generation_human)) for hero in heroes]))
 
+    availabilities = sorted(set([(hero.availability,
+                                  ('txt', hero.availability_human)) for hero in heroes]))
+
     f2ps = [
       ['True', ('txt', 'F2P')],
       ['False', ('txt', 'Whale')],
     ]
 
+    max_stats = [
+      ['normal', ('txt', '5*+0 Lv40')],
+      ['max', ('txt', 'MAX')],
+    ]
+
     context['heroes'] = heroes
     context['filters'] = [
+        ['statdisplay', max_stats, 'btn-exactly-one'],
         ['f2p', f2ps, 'btn-choose-one',],
         ['book', books, 'btn-choose-any',],
         ['generation', generations, 'btn-choose-any',],
         ['movement-type', movement_types, 'btn-choose-any',],
         ['weapon-type', weapon_types, 'btn-choose-any',],
+        ['availability', availabilities, 'btn-choose-any',],
     ]
     return context
+
+
+class RefreshHeroes(LoginRequiredMixin, FormView):
+  template_name = 'feh/refresh.html'
+  form_class = forms.EmptyForm
+  res = ''
+
+  def form_valid(self, form):
+    CurlAll()
+    LoadPoro()
+    cache.clear()
+    return redirect(reverse('feh:heroes_list'))
+
 
 

@@ -9,10 +9,11 @@ import urllib.parse
 
 from bs4 import BeautifulSoup
 import certifi
+from django.conf import settings
 import unidecode
 
+from config.settings.base import APPS_DIR
 import pycurl
-from django.conf import settings
 
 from .poroclasses import Weapon, Refine, Skill, Hero
 
@@ -22,15 +23,16 @@ def CurlAll():
     #sys.stdout.reconfigure(encoding='utf-8')
     debugMode = False
 
-    file_root = os.path.join(settings.MEDIA_ROOT, 'poro')
+    output_file_root = os.path.join(settings.MEDIA_ROOT, 'poro')
 
-    if not os.path.isdir(file_root):
-        os.mkdir(file_root)
+    if not os.path.isdir(output_file_root):
+        os.mkdir(output_file_root)
 
     filename = 'poro.pkl'
 
-    pkl_output_file = os.path.join(file_root, filename)
+    pkl_output_file = os.path.join(output_file_root, filename)
 
+    file_root = str(APPS_DIR('heroes_curl'))
     heroFolder = os.path.join(file_root, 'heroes')
     skillFolder = os.path.join(file_root, 'skills')
     wikiPage = 'https://feheroes.gamepedia.com'

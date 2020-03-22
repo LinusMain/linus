@@ -127,3 +127,8 @@ class LucksackForm(forms.Form):
       if f1 < 1:
         raise forms.ValidationError('if unit already in summonable pool, must exist at least one ssr unit with same color')
 
+
+class EmptyForm(forms.Form):
+  pass
+
+
