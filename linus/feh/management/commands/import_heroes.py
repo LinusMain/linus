@@ -4,14 +4,13 @@ Created on Sep 7, 2017
 @author: dolphinigle
 '''
 from datetime import date
-import datetime
 from time import strptime
 import time
 
 from django.core.management.base import BaseCommand
 
-from linus.feh import porocode
 from linus.feh.models import AVAILABILITY, MOVEMENT_TYPE, WEAPON_TYPE, COLOR
+from linus.feh.poro.poropicklechecker import LoadPoro
 
 from ... import models
 
@@ -19,12 +18,10 @@ from ... import models
 class Command(BaseCommand):
   help = 'Import Heroes from porocode.'
 
-  def add_arguments(self, parser):
-    parser.add_argument('filename', type=str)
-
   def handle(self, *args, **options):
-    filename = options['filename']
-    heroes = porocode.readHeroFile(filename)
+    all_data = LoadPoro()
+
+    heroes = all_data['heroes']
 
     models.Hero.objects.all().delete()
     for hero in heroes:
@@ -37,6 +34,7 @@ class Command(BaseCommand):
           Story=AVAILABILITY.STORY,
           TT=AVAILABILITY.TT,
           Legendary=AVAILABILITY.LEGENDARY,
+          Duo=AVAILABILITY.DUO,
       )
 
       MV_MAP = dict(
@@ -71,12 +69,12 @@ class Command(BaseCommand):
           'Green Beast': WEAPON_TYPE.G_BEAST,
           'Colorless Beast': WEAPON_TYPE.C_BEAST,
 
-          'Red Breath': WEAPON_TYPE.R_DRAGON,
-          'Blue Breath': WEAPON_TYPE.B_DRAGON,
-          'Green Breath': WEAPON_TYPE.G_DRAGON,
-          'Colorless Breath': WEAPON_TYPE.C_DRAGON,
+          'Red Dragonstone': WEAPON_TYPE.R_DRAGON,
+          'Blue Dragonstone': WEAPON_TYPE.B_DRAGON,
+          'Green Dragonstone': WEAPON_TYPE.G_DRAGON,
+          'Colorless Dragonstone': WEAPON_TYPE.C_DRAGON,
 
-          'Colorless Staff': WEAPON_TYPE.C_STAFF,
+          'Colorless Stave': WEAPON_TYPE.C_STAFF,
       }
 
       COLOR_MAP = dict(
@@ -90,22 +88,21 @@ class Command(BaseCommand):
       release_date = strptime(hero.releaseDate, '%Y-%m-%d')
 
       models.Hero.objects.create(
-          name=hero.heroName,
-          title=hero.heroMod,
+          name=hero.name,
+          title=hero.mod,
           availability=AV_MAP[hero.heroSrc],
           is_f2p=hero.isF2P(),
           movement_type=MV_MAP[hero.move],
-          weapon_type=WP_MAP[hero.getWeaponString()],
+          weapon_type=WP_MAP[hero.getWeaponType()],
           color=COLOR_MAP[hero.getColor()],
-          hp = finalstat[-5][1],
-          attack = finalstat[-4][1],
-          speed = finalstat[-3][1],
-          defense = finalstat[-2][1],
-          resistance = finalstat[-1][1],
+          hp = finalstat[0],
+          attack = finalstat[1],
+          speed = finalstat[2],
+          defense = finalstat[3],
+          resistance = finalstat[4],
           bst=hero.getBST(),
-          pullable_3star=hero.hero3Star,
-          pullable_4star=hero.hero4Star,
-          pullable_5star=hero.hero5Star,
+          categories=hero.categories,
+          rarities=hero.getPullableRarities(),
           release_date=date.fromtimestamp(time.mktime(release_date)),
       )
 

@@ -1,12 +1,15 @@
 from _collections import defaultdict
 import sys
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
+from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
 
 from linus.feh.lucksack_calc import FehSnipeProbability
 
-from . import forms
+from . import forms, models
+
 
 MULTIPLIER_MAX = 2
 
@@ -183,6 +186,12 @@ class LucksackCalculator(FormView):
 lucksack_calculator = LucksackCalculator.as_view()
 
 
+class HeroesList(LoginRequiredMixin, TemplateView):
+  template_name = 'feh/heroes.html'
 
+  def get_context_data(self, *args, **kwargs):
+    context = super().get_context_data(*args, **kwargs)
+    context['heroes'] = models.Hero.objects.all().order_by('name', 'title')
+    return context
 
 

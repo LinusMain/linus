@@ -1,7 +1,9 @@
 from datetime import date
 
+from django.contrib.postgres.fields.array import ArrayField
 from django.contrib.postgres.fields.jsonb import JSONField
 from django.db import models
+from django.templatetags.static import static
 
 
 # Create your models here.
@@ -20,6 +22,8 @@ class AVAILABILITY(object):
   MYTHIC = 'MYTHIC'
   # Story
   STORY = 'STORY'
+  # Duo
+  DUO = 'DUO'
 
 AVAILABILITY_PAIRS = (
   (AVAILABILITY.STANDARD, 'Standard Pool',),
@@ -29,6 +33,7 @@ AVAILABILITY_PAIRS = (
   (AVAILABILITY.LEGENDARY, 'Legendary Hero',),
   (AVAILABILITY.MYTHIC, 'Mythic Hero',),
   (AVAILABILITY.STORY, 'Story Hero',),
+  (AVAILABILITY.DUO, 'Duo',),
 )
 
 AVAILABILITY_HUMAN_READABLE = dict(AVAILABILITY_PAIRS)
@@ -174,10 +179,6 @@ class Hero(models.Model):
   resistance = models.IntegerField('res')
   bst = models.IntegerField('BST')
 
-  pullable_3star = models.BooleanField()
-  pullable_4star = models.BooleanField()
-  pullable_5star = models.BooleanField()
-
   release_date = models.DateField()
 
   # All the following are auto generated
@@ -187,6 +188,21 @@ class Hero(models.Model):
 
   # 2
   generation = models.IntegerField('gen')
+
+  categories = ArrayField(models.CharField(max_length=100))
+  rarities = ArrayField(models.IntegerField())
+
+  @property
+  def full_name(self):
+    return '{0}: {1}'.format(self.name, self.title)
+
+  @property
+  def movement_type_icon(self):
+    return static('images/icons/ICON_{0}.png'.format(self.movement_type))
+
+  @property
+  def weapon_type_icon(self):
+    return static('images/icons/ICON_{0}.png'.format(self.weapon_type))
 
   @property
   def StatArray(self):

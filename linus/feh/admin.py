@@ -36,9 +36,6 @@ class HeroAdmin(AdminAdvancedFiltersMixin, admin.ModelAdmin):
                  'availability',
                  'book',
                  'generation',
-                 'pullable_3star',
-                 'pullable_4star',
-                 'pullable_5star',
                  )
   # simple list filters
 

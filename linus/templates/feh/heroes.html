@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block title %}FEH Heroes List{% endblock %}
+
+{% block javascript %}
+  {{ block.super }}
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+  <script src="{% static 'js/heroes.js' %}"></script>
+{% endblock %}
+
+{% block css %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+{% endblock %}
+
+{% block content %}
+  <h1>FEH Heroes List</h1>
+  <h7>Made by LinusMain and Pororo. Linus > Raven. Free hugs for Poronavirus.</h3>
+
+  <table id='heroes-table' class='table'>
+    <thead>
+      <tr>
+        <td>Name</td>
+        <td>Weap</td>
+        <td>Mov</td>
+        <td>HP</td>
+        <td>Atk</td>
+        <td>Spd</td>
+        <td>Def</td>
+        <td>Res</td>
+        <td>BST</td>
+        <td>Gen</td>
+        <td>Book</td>
+      </tr>
+    </thead>
+    <tbody>
+      {% for hero in heroes %}
+        <tr>
+          <td>{{ hero.full_name }}</td>
+          <td data-sort="{{ hero.weapon_type }}"><img height="30pt" src="{{ hero.weapon_type_icon }}"</img></td>
+          <td data-sort="{{ hero.movement_type }}"><img height="30pt" src="{{ hero.movement_type_icon }}"</img></td>
+          <td>{{ hero.hp}}</td>
+          <td>{{ hero.attack}}</td>
+          <td>{{ hero.speed}}</td>
+          <td>{{ hero.defense}}</td>
+          <td>{{ hero.resistance}}</td>
+          <td>{{ hero.bst}}</td>
+          <td>{{ hero.generation}}</td>
+          <td>{{ hero.book}}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock %}
+
