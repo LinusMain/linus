@@ -203,7 +203,9 @@ class Hero(object):
     # before hero is ready for export
     def finalize(self):
         # because leenis hates Flame_Emperor
-        self.name = self.name.replace("_", "")
+        self.name = self.name.replace("_", " ")
+        self.mod = self.name.replace("_", " ")
+        self.full_name = self.full_name.replace("_", " ")
         # extract neutral stats and weapontype for easy fetching
         self.statArray = [bnb[1] for bnb in self.lvl_40_Stats[4]]
         self.weapon = self.weaponReqs[0][0].type
