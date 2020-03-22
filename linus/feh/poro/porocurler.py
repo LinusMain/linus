@@ -23,6 +23,10 @@ def CurlAll():
     debugMode = False
 
     file_root = os.path.join(settings.MEDIA_ROOT, 'poro')
+
+    if not os.path.isdir(file_root):
+        os.mkdir(file_root)
+
     filename = 'poro.pkl'
 
     pkl_output_file = os.path.join(file_root, filename)
