@@ -66,7 +66,7 @@
         <td>BST</td>
 
         <td>Gen</td>
-        <td>Book</td>
+        <td>Release</td>
         <td>Weapon Type</td>
         <td>Movement Type</td>
         <td>F2P</td>
@@ -99,7 +99,7 @@
 
           <td>{{ hero.generation}}</td>
 
-          <td>{{ hero.book}}</td>
+          <td data-sort='{{ hero.release_date|date:"Y-m-d"}}'>{{ hero.release_date|date:"j M y"}}</td>
           <td>{{ hero.weapon_type }}</td>
           <td>{{ hero.movement_type }}</td>
           <td>{{ hero.is_f2p }}</td>

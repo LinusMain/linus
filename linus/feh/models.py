@@ -27,7 +27,7 @@ class AVAILABILITY(object):
 
 AVAILABILITY_PAIRS = (
   (AVAILABILITY.STANDARD, 'Standard Pool',),
-  (AVAILABILITY.SPECIAL, 'Limited Hero',),
+  (AVAILABILITY.SPECIAL, 'Special Hero',),
   (AVAILABILITY.GHB, 'Grand Hero Battle',),
   (AVAILABILITY.TT, 'Tempest Trials',),
   (AVAILABILITY.LEGENDARY, 'Legendary Hero',),
