@@ -104,6 +104,7 @@ class Command(BaseCommand):
           categories=hero.categories,
           rarities=hero.getPullableRarities(),
           release_date=date.fromtimestamp(time.mktime(release_date)),
+          gamepedia_url=hero.url,
       )
 
 

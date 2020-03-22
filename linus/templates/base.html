@@ -55,6 +55,7 @@
 
     </div>
 
+    {% block overridecontent %}
     <div class="container">
 
       {% if messages %}
@@ -68,6 +69,7 @@
       {% endblock content %}
 
     </div> <!-- /container -->
+    {% endblock overridecontent %}
 
     {% block modal %}{% endblock modal %}
 

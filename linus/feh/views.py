@@ -191,7 +191,29 @@ class HeroesList(LoginRequiredMixin, TemplateView):
 
   def get_context_data(self, *args, **kwargs):
     context = super().get_context_data(*args, **kwargs)
-    context['heroes'] = models.Hero.objects.all().order_by('name', 'title')
+    heroes = list(models.Hero.objects.all().order_by('name', 'title'))
+
+    weapon_types = sorted(set([(hero.weapon_type, ('img', hero.weapon_type_icon)) for hero in heroes]))
+
+    movement_types = sorted(set([(hero.movement_type, ('img', hero.movement_type_icon)) for hero in heroes]))
+
+    books = sorted(set([(hero.book, ('txt', hero.book_human)) for hero in heroes]))
+
+    generations = sorted(set([(hero.generation, ('txt', hero.generation_human)) for hero in heroes]))
+
+    f2ps = [
+      ['True', ('txt', 'F2P')],
+      ['False', ('txt', 'Whale')],
+    ]
+
+    context['heroes'] = heroes
+    context['filters'] = [
+        ['f2p', f2ps, 'btn-choose-one',],
+        ['book', books, 'btn-choose-any',],
+        ['generation', generations, 'btn-choose-any',],
+        ['movement-type', movement_types, 'btn-choose-any',],
+        ['weapon-type', weapon_types, 'btn-choose-any',],
+    ]
     return context
 
 

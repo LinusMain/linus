@@ -40,10 +40,10 @@ AVAILABILITY_HUMAN_READABLE = dict(AVAILABILITY_PAIRS)
 
 
 class MOVEMENT_TYPE(object):
-  INFANTRY = 'INFANTRY'
-  ARMOR = 'ARMOR'
-  FLYING = 'FLYING'
-  CAVALRY = 'CAVALRY'
+  INFANTRY = 'M_01_INFANTRY'
+  FLYING = 'M_02_FLYING'
+  CAVALRY = 'M_03_CAVALRY'
+  ARMOR = 'M_04_ARMOR'
 
 MOVEMENT_TYPE_PAIRS = (
   (MOVEMENT_TYPE.INFANTRY, 'Infantry',),
@@ -56,36 +56,36 @@ MOVEMENT_TYPE_HUMAN_READABLE = dict(MOVEMENT_TYPE_PAIRS)
 
 
 class WEAPON_TYPE(object):
-  R_SWORD = 'SWORD'
-  B_LANCE = 'LANCE'
-  G_AXE = 'AXE'
+  R_SWORD = 'W_01_SWORD'
+  B_LANCE = 'W_02_LANCE'
+  G_AXE = 'W_03_AXE'
 
-  R_TOME = 'R_TOME'
-  B_TOME = 'B_TOME'
-  G_TOME = 'G_TOME'
-  C_TOME = 'C_TOME'
+  R_TOME = 'W_11_R_TOME'
+  B_TOME = 'W_12_B_TOME'
+  G_TOME = 'W_13_G_TOME'
+  C_TOME = 'W_14_C_TOME'
 
-  R_BOW = 'R_BOW'
-  B_BOW = 'B_BOW'
-  G_BOW = 'G_BOW'
-  C_BOW = 'C_BOW'
+  R_BOW = 'W_21_R_BOW'
+  B_BOW = 'W_22_B_BOW'
+  G_BOW = 'W_23_G_BOW'
+  C_BOW = 'W_24_C_BOW'
 
-  R_DAGGER = 'R_DAGGER'
-  B_DAGGER = 'B_DAGGER'
-  G_DAGGER = 'G_DAGGER'
-  C_DAGGER = 'C_DAGGER'
+  R_DAGGER = 'W_31_R_DAGGER'
+  B_DAGGER = 'W_32_B_DAGGER'
+  G_DAGGER = 'W_33_G_DAGGER'
+  C_DAGGER = 'W_34_C_DAGGER'
 
-  R_DRAGON = 'R_DRAGON'
-  B_DRAGON = 'B_DRAGON'
-  G_DRAGON = 'G_DRAGON'
-  C_DRAGON = 'C_DRAGON'
+  R_DRAGON = 'W_41_R_DRAGON'
+  B_DRAGON = 'W_42_B_DRAGON'
+  G_DRAGON = 'W_43_G_DRAGON'
+  C_DRAGON = 'W_44_C_DRAGON'
 
-  R_BEAST = 'R_BEAST'
-  B_BEAST = 'B_BEAST'
-  G_BEAST = 'G_BEAST'
-  C_BEAST = 'C_BEAST'
+  R_BEAST = 'W_51_R_BEAST'
+  B_BEAST = 'W_52_B_BEAST'
+  G_BEAST = 'W_53_G_BEAST'
+  C_BEAST = 'W_54_C_BEAST'
 
-  C_STAFF = 'C_STAFF'
+  C_STAFF = 'W_64_C_STAFF'
 
 
 WEAPON_TYPE_PAIRS = (
@@ -192,6 +192,8 @@ class Hero(models.Model):
   categories = ArrayField(models.CharField(max_length=100))
   rarities = ArrayField(models.IntegerField())
 
+  gamepedia_url = models.URLField()
+
   @property
   def full_name(self):
     return '{0}: {1}'.format(self.name, self.title)
@@ -199,6 +201,14 @@ class Hero(models.Model):
   @property
   def movement_type_icon(self):
     return static('images/icons/ICON_{0}.png'.format(self.movement_type))
+
+  @property
+  def book_human(self):
+    return 'Book {0}'.format(self.book)
+
+  @property
+  def generation_human(self):
+    return 'Gen {0}'.format(self.generation)
 
   @property
   def weapon_type_icon(self):

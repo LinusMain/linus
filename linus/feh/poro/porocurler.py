@@ -297,10 +297,11 @@ def CurlAll():
     # weaponReqs        (Weapon,int,int)[]
     # skillReqs         (Skill,int,int)[] 
     # duoSkill          string     
-    def parseHero(soup, heroName, heroMod):
+    def parseHero(soup, heroName, heroMod, heroURL):
         hero = Hero()
         heroList.append(hero)
         hero.name = urlStrip(heroName)
+        hero.url = heroURL
         hero.mod = urlStrip(heroMod)
         hero.full_name = hero.name + ":" + hero.mod    
 
@@ -480,7 +481,7 @@ def CurlAll():
                 os.mkdir(individualFolder)
             heroPage = os.path.join(individualFolder, heroMod + ".html")
             heroSoup = curlSoup(wikiPage+heroURL, heroPage, bReplaceHeroFiles)
-            parseHero(heroSoup, heroName, heroMod)
+            parseHero(heroSoup, heroName, heroMod, wikiPage+heroURL)
 
     soup = curlSoup(prfURL, prfFile, bReplaceNonHeroFiles)
     pageTitle = soup.title.string.rsplit(" - Fire Emblem Heroes Wiki")[0]

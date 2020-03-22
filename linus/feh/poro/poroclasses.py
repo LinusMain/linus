@@ -82,6 +82,7 @@ class Skill(object):
 # weapon            string
 # heroSrc           string
 # move              string
+# url
 class Hero(object):
 
     STAT_HP = 0
