@@ -186,7 +186,7 @@ class LucksackCalculator(FormView):
 lucksack_calculator = LucksackCalculator.as_view()
 
 
-class HeroesList(LoginRequiredMixin, TemplateView):
+class HeroesList(TemplateView):
   template_name = 'feh/heroes.html'
 
   def get_context_data(self, *args, **kwargs):
