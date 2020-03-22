@@ -2,12 +2,12 @@ $(document).ready(function() {
     $.fn.dataTable.ext.search.push(
         function( settings, data, dataIndex ) {
             var filters = [
-                ['weapon-type', 11],
-                ['movement-type', 12],
-                ['f2p', 13],
-                ['book', 14],
-                ['generation', 15],
-                ['availability', 16],
+                ['weapon-type', 17],
+                ['movement-type', 18],
+                ['f2p', 19],
+                ['book', 20],
+                ['generation', 21],
+                ['availability', 22],
             ];
             for (var i = 0; i < filters.length; ++i) {
               var alltypes = new Set();
@@ -25,13 +25,11 @@ $(document).ready(function() {
         }
     );
 
-    $('.statdisplay').hide();
-    $('.statdisplay-normal').show();
     var table = $('#heroes-table').DataTable({
         pageLength: 50,
         columnDefs: [ 
             {
-                "targets": [ 11, 12, 13, 14, 15, 16],
+                "targets": [ 9, 10, 11, 12, 13, 14, 17, 18, 19, 20, 21, 22],
                 "visible": false,
             },
         ]
@@ -53,14 +51,25 @@ $(document).ready(function() {
     $('.btn-exactly-one button').click(function() {
         // Deactivate everyone
         $(this).siblings().removeClass('active');
-        $(this).addClass("active");
+        $(this).toggleClass("active");
+        table.draw();
     });
 
     $('button.statdisplay-btn').click(function() {
-      $('.statdisplay').hide();
-      $('.statdisplay.statdisplay-' + $(this).attr('data-id')).show();
-      console.log($(this).attr('data-id'));
-      table.draw();
+      var all_columns = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+      for (var i = 0; i < all_columns.length; ++i) {
+        var column = table.column(all_columns[i]);
+        column.visible(false);
+      }
+
+      var column_visibility = {};
+      column_visibility.normal = [3, 4, 5, 6, 7, 8];
+      column_visibility.max = [9, 10, 11, 12, 13, 14];
+      var mytype = $(this).attr('data-id');
+      for (var i = 0; i < column_visibility[mytype].length; ++i) {
+        var column = table.column(all_columns[i]);
+        column.visible(true);
+      }
+      table.columns.adjust().draw();
     });
-    $('button.statdisplay-btn[data-id="normal"]').addClass('active');
 } );

@@ -23,7 +23,6 @@
       <div class="row">
         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
           <div class="sidebar-sticky">
-
             {% for filter in filters %}
               <div class='{{ filter.2 }}'>
                   {% for content in filter.1 %}
@@ -59,6 +58,13 @@
         <td>Res</td>
         <td>BST</td>
 
+        <td>HP</td>
+        <td>Atk</td>
+        <td>Spd</td>
+        <td>Def</td>
+        <td>Res</td>
+        <td>BST</td>
+
         <td>Gen</td>
         <td>Book</td>
         <td>Weapon Type</td>
@@ -75,49 +81,30 @@
           <td data-sort="{{ hero.full_name }}"><a href="{{ hero.gamepedia_url }}">{{ hero.full_name }}</a></td>
           <td data-sort="{{ hero.weapon_type }}"><img height="30pt" src="{{ hero.weapon_type_icon }}"</img></td>
           <td data-sort="{{ hero.movement_type }}"><img height="30pt" src="{{ hero.movement_type_icon }}"</img></td>
-          <td>
-            <span class='statdisplay statdisplay-normal'>{{ hero.hp}}</span>
-            <span class='statdisplay statdisplay-max'>{{ hero.max_stats.0}}</span>
+          <td>{{ hero.hp}}</td>
+          <td>{{ hero.attack}}</td>
 
-          </td>
-          <td>
-            <span class='statdisplay statdisplay-normal'>{{ hero.attack}}</span>
+          <td>{{ hero.speed}}</td>
+          <td>{{ hero.defense}}</td>
+          <td>{{ hero.resistance}}</td>
+          <td>{{ hero.bst}}</td>
 
-            <span class='statdisplay statdisplay-max'>{{ hero.max_stats.1}}</span>
+          <td>{{ hero.max_stats.0}}</td>
+          <td>{{ hero.max_stats.1}}</td>
 
-          </td>
-          <td>
-            <span class='statdisplay statdisplay-normal'>{{ hero.speed}}</span>
-
-            <span class='statdisplay statdisplay-max'>{{ hero.max_stats.2}}</span>
-
-          </td>
-          <td>
-            <span class='statdisplay statdisplay-normal'>{{ hero.defense}}</span>
-
-            <span class='statdisplay statdisplay-max'>{{ hero.max_stats.3}}</span>
-
-          </td>
-          <td>
-            <span class='statdisplay statdisplay-normal'>{{ hero.resistance}}</span>
-
-            <span class='statdisplay statdisplay-max'>{{ hero.max_stats.4}}</span>
-
-          </td>
-          <td>
-            <span class='statdisplay statdisplay-normal'>{{ hero.bst}}</span>
-
-            <span class='statdisplay statdisplay-max'>{{ hero.max_bst}}</span>
-
-          </td>
+          <td>{{ hero.max_stats.2}}</td>
+          <td>{{ hero.max_stats.3}}</td>
+          <td>{{ hero.max_stats.4}}</td>
+          <td>{{ hero.max_bst}}</td>
 
           <td>{{ hero.generation}}</td>
+
           <td>{{ hero.book}}</td>
           <td>{{ hero.weapon_type }}</td>
           <td>{{ hero.movement_type }}</td>
           <td>{{ hero.is_f2p }}</td>
-
           <td>{{ hero.book }}</td>
+
           <td>{{ hero.generation }}</td>
           <td>{{ hero.availability }}</td>
         </tr>
