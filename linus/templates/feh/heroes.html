@@ -18,7 +18,7 @@
                     {% for content in filter.1 %}
                       <button type="button" class="btn btn-default {{ filter.0 }}-btn btn-sm" data-id="{{ content.0 }}"
                       {% if content.1.2 %}
-                        title="{{ content.1.2 }}"
+                        data-tippy-content="{{ content.1.2 }}"
                       {% endif %}
                       >
                         {% if content.1.0 == 'txt' %}
@@ -82,6 +82,8 @@
   <a class="toggle-vis" data-column="37">Resplendent</a>
   -
   <a class="toggle-vis" data-column="38">Season</a>
+  -
+  <a class="toggle-vis" data-column="39">Harmonized Skill</a>
   </div>
 
   <table id='heroes-table' class='table table-striped' width="100%">

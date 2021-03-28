@@ -23,9 +23,9 @@ def parseRawSkill(rawSkill):
     s.range = tryStrToInt(rawSkill['UseRange'])
     # TODO: prettify it later
     s.desc = replace_entities(rawSkill['Description'].replace("&lt;br&gt;", "\n"))
-    s.slot = rawSkill['Scategory']   
+    s.slot = rawSkill['Scategory']
     if s.slot == "sacredseal":
-        s.isSeal = True 
+        s.isSeal = True
     s.cd = tryStrToInt(rawSkill['Cooldown'])
     s.page = rawSkill['Page']
     s.url = "https://feheroes.gamepedia.com/" + urllib.parse.quote(s.page)
@@ -60,7 +60,7 @@ def parseRawUpgrade(rawUpgrade, allSkills):
 
 def parseRawEvolution(rawEvolution, allSkills):
     baseWeapKey = rawEvolution['BaseWeapon']
-    intoWeapKey = rawEvolution['EvolvesInto']    
+    intoWeapKey = rawEvolution['EvolvesInto']
     baseWeap = allSkills[baseWeapKey]
     intoWeap = allSkills[intoWeapKey]
     baseWeap.evolutions.append(intoWeap)
@@ -108,7 +108,7 @@ def parseRawUnit(rawUnit):
     properties = removeEmptyStrings(properties)
     h.properties = properties
     if "refresher" in properties:
-        h.isDancer = True 
+        h.isDancer = True
     if "tempest" in properties:
         h.heroSrc = "TT"
         h.rarities = [4,5]
@@ -129,8 +129,8 @@ def parseRawUnit(rawUnit):
     elif "special" in h.properties:
         h.heroSrc = "Special"
     else:
-        h.heroSrc = "Normal"         
-    return h 
+        h.heroSrc = "Normal"
+    return h
 
 def parseRawUnitStat(rawUnitStat, allUnits):
     # print(rawUnitStat)
@@ -145,7 +145,7 @@ def parseRawUnitStat(rawUnitStat, allUnits):
     # black magic fuckery, smurt
     lvl15Stats = [
         lvl1BB(tryStrToInt(rawUnitStat['Lv1%s5'%(stat)])) for stat in stats
-    ] 
+    ]
     h.lvl_1_Stats[4] = lvl15Stats
     h.lvl_1_Stats[2] = [lvl1BB(v[1]-1) for v in h.lvl_1_Stats[4]]
     h.lvl_1_Stats[0] = [lvl1BB(v[1]-2) for v in h.lvl_1_Stats[4]]
@@ -195,9 +195,9 @@ def parseRawUnitStat(rawUnitStat, allUnits):
         if hasBoon and not (numBanes == 4):
             totalBoon = totalStat + 1
         else:
-            totalBoon = totalStat 
+            totalBoon = totalStat
         # finalize the totals
-        h.lvl_40_Stats[star-1][5] = (totalBane, totalStat, totalBoon)    
+        h.lvl_40_Stats[star-1][5] = (totalBane, totalStat, totalBoon)
 
     # fill in the last entry with total bst
     h.statArray = [t[1] for t in h.lvl_40_Stats[4]]
@@ -211,7 +211,7 @@ def parseRawUnitStat(rawUnitStat, allUnits):
 
 def parseRawUnitSkill(rawUnitSkill, allSkills, allUnits):
     heroKey = rawUnitSkill['WikiName']
-    skillKey = rawUnitSkill['skill']   
+    skillKey = rawUnitSkill['skill']
     # because some elements in the table might be borken
     if not heroKey in allUnits:
         heroKey = heroKey + " ENEMY"
@@ -229,7 +229,7 @@ def parseRawUnitSkill(rawUnitSkill, allSkills, allUnits):
     sr.unlockRarity = tryStrToInt(rawUnitSkill['unlockRarity'])
     # print(h,sr)
     h.skillReqs.append(sr)
-    return 
+    return
 
 
 def parseRawLeg(rawLegHero, allUnitPages):
@@ -287,7 +287,7 @@ def parseRawHarmonized(rawHarmonizedHero, allUnitPages):
             return
     hero = allUnitPages[page]
     hero.heroSrc = "Harmonized"
-    hero.harmonizedSkill = rawMythicHero['HarmonizedSkill']
+    hero.harmonizedSkill = rawHarmonizedHero['HarmonizedSkill']
     return
 
 def parseRawFocus(rawFocus, allUnits):
@@ -312,12 +312,12 @@ def parseRawAvailability(rawHeroAvail, allUnitPages, timeNow):
             )
             return
     hero = allUnitPages[page]
-    rarity = tryStrToInt(rawHeroAvail['Rarity'])       
+    rarity = tryStrToInt(rawHeroAvail['Rarity'])
     startStr = rawHeroAvail['StartTime']
     startTime = datetime.datetime.strptime(startStr, "%Y-%m-%d %H:%M:%S")
-    startTime = pytz.utc.localize(startTime) 
+    startTime = pytz.utc.localize(startTime)
     endStr = rawHeroAvail['EndTime']
-    endTime = datetime.datetime.strptime(endStr, "%Y-%m-%d %H:%M:%S") 
+    endTime = datetime.datetime.strptime(endStr, "%Y-%m-%d %H:%M:%S")
     endTime = pytz.utc.localize(endTime)
     avail = Availability()
     avail.rarity = rarity
@@ -333,7 +333,7 @@ def parseRawAvailability(rawHeroAvail, allUnitPages, timeNow):
     # print(hero, rarity, startTime, "to", endTime)
     return
 
-def finalizeUnitSkills(unit): 
+def finalizeUnitSkills(unit):
     # print(unit, unit.skillReqs)
     for sr in unit.skillReqs:
         if sr.slot == "weapon":
@@ -346,7 +346,7 @@ def finalizeUnitSkills(unit):
                 evoSR.unlockRarity = sr.unlockRarity
                 # for-iterator will visit this newly
                 # appended item because python;
-                # this is desirable in case 
+                # this is desirable in case
                 # evolved weaps can evolve again
                 unit.skillReqs.append(evoSR)
             if sr.unlockRarity == 5:
@@ -354,7 +354,7 @@ def finalizeUnitSkills(unit):
                 sr.isMax = True
     slots = ["special", "assist", "passivea", "passiveb", "passivec"]
     for slot in slots:
-        slotsrs = [slotsr for slotsr in unit.skillReqs if slotsr.slot == slot] 
+        slotsrs = [slotsr for slotsr in unit.skillReqs if slotsr.slot == slot]
         if slotsrs == []:
             continue
         # print(slotsrs)
@@ -369,21 +369,21 @@ def tryStrToInt(intStr):
     elif intStr == "" or intStr == None:
         return 0
     else:
-        warnings.warn("Bad intStr submitted to tryStrToInt", stacklevel=2)     
+        warnings.warn("Bad intStr submitted to tryStrToInt", stacklevel=2)
         return 0
 
 def LoadPoro(pkl_output_file = 'poro.pkl'):
     with open(pkl_output_file + ".0", 'rb') as f:
-        up = pickle.Unpickler(f)    
+        up = pickle.Unpickler(f)
         rawSkills = up.load()
         rawUpgrades = up.load()
-        rawEvolutions = up.load()        
+        rawEvolutions = up.load()
         rawUnitStats = up.load()
     with open(pkl_output_file + ".1", 'rb') as f:
-        up = pickle.Unpickler(f)  
+        up = pickle.Unpickler(f)
         rawUnitSkills = up.load()
     with open(pkl_output_file + ".2", 'rb') as f:
-        up = pickle.Unpickler(f) 
+        up = pickle.Unpickler(f)
         rawUnits = up.load()
         rawSeals = up.load()
         rawLegHeroes = up.load()
@@ -418,7 +418,7 @@ def LoadPoro(pkl_output_file = 'poro.pkl'):
             rawEvolution = weapEvos[wikiName2]
             parseRawEvolution(rawEvolution, allSkills)
 
-    # allSeals 
+    # allSeals
     for skillkey in rawSeals:
         rawSeal = rawSeals[skillkey]
         seal = parseRawSeal(rawSeal, allSkills)
@@ -446,7 +446,7 @@ def LoadPoro(pkl_output_file = 'poro.pkl'):
             continue
         if skill.wikiName in sealReqs:
             seal.isMax = False
-        else: 
+        else:
             seal.isMax = True
 
     for wikiName in rawUnits:
@@ -468,11 +468,11 @@ def LoadPoro(pkl_output_file = 'poro.pkl'):
     # skillReqs have been defined by parseRawUnitSkill
     # now do post processing to mark final skills
     # e.g. Fury 3 on Hinata
-    # and to add evolutions 
+    # and to add evolutions
     # e.g. Tobin armorsmasher
     for unitkey in allUnits:
         unit = allUnits[unitkey]
-        finalizeUnitSkills(unit) 
+        finalizeUnitSkills(unit)
 
     # we can use properties but just in case they fucked up
     for wikipage in rawLegHeroes:
@@ -486,7 +486,7 @@ def LoadPoro(pkl_output_file = 'poro.pkl'):
         parseRawMythic(rawMythicHero, allUnitPages)
     for wikipage in rawHarmonizedHeroes:
         rawHarmonizedHero = rawHarmonizedHeroes[wikipage]
-        parseRawHarmonized(rawHarmonizedHero, allUnitPages)        
+        parseRawHarmonized(rawHarmonizedHero, allUnitPages)
     # focus rarities first
     for rid in rawSummonFocusUnits:
         rawFocus = rawSummonFocusUnits[rid]
@@ -498,7 +498,7 @@ def LoadPoro(pkl_output_file = 'poro.pkl'):
         parseRawAvailability(rawHeroAvail, allUnitPages, timeNow)
 
     # finalize prf perms by checking which units have them
-    # could be faster if we put it into the body of 
+    # could be faster if we put it into the body of
     # the skillReq parser but let's keep it (relatively)
     # sane over here and do it at the end
     prfs = [s for s in allSkills.values() if s.isPrf]
@@ -514,7 +514,7 @@ def LoadPoro(pkl_output_file = 'poro.pkl'):
                 prf.weaponPerms.append(wp)
             if not mp in prf.movePerms:
                 prf.movePerms.append(mp)
-    
+
     # returning lists smh leenis so degenerate :alfonsewat:
     return dict(
         skills=list(allSkills.values()),

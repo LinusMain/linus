@@ -221,11 +221,14 @@ def HeroesListAjax(request):
                                  url=hero.gamepedia_url,)
                                  #hero_icon_url=hero.icon_image.url)
     herodata['f2p_level'] = dict(name=hero.f2p_level,
-                                 icon=hero.f2p_level_icon,)
+                                 icon=hero.f2p_level_icon,
+                                 title=hero.f2p_level_human,)
     herodata['weapon_type'] = dict(name=hero.weapon_type,
-                                   icon=hero.weapon_type_icon,)
+                                   icon=hero.weapon_type_icon,
+                                   title=hero.weapon_type_human,)
     herodata['movement_type'] = dict(name=hero.movement_type,
-                                     icon=hero.movement_type_icon,)
+                                     icon=hero.movement_type_icon,
+                                     title=hero.movement_type_human,)
 
     herodata['boonbanes'] = hero.boonbanes
 
@@ -253,11 +256,10 @@ def HeroesListAjax(request):
     #herodata['f2p_level'] = hero.f2p_level
     herodata['book'] = hero.book
 
-    herodata['generation'] = hero.generation
     herodata['availability'] = hero.availability
     herodata['skills'] = hero.skills
     herodata['origin_game'] = dict(
-        name=hero.game_code, icon=hero.game_icon,)
+        name=hero.game_code, icon=hero.game_icon, title=hero.origin_game,)
     herodata['stripped_name'] = hero.stripped_name
     herodata['gender'] = hero.gender
     herodata['is_dancer'] = hero.is_dancer
@@ -266,6 +268,7 @@ def HeroesListAjax(request):
     herodata['availability_human'] = hero.availability_human
     herodata['has_resplendent'] = hero.has_resplendent
     herodata['season'] = hero.season
+    herodata['harmonized_skill'] = hero.harmonized_skill
 
     data.append(herodata)
 
@@ -279,9 +282,9 @@ class HeroesList(TemplateView):
     context = super().get_context_data(*args, **kwargs)
     heroes = list(models.Hero.objects.all().order_by('name', 'title'))
 
-    weapon_types = sorted(set([(hero.weapon_type, ('img', hero.weapon_type_icon)) for hero in heroes]))
+    weapon_types = sorted(set([(hero.weapon_type, ('img', hero.weapon_type_icon, hero.weapon_type_human)) for hero in heroes]))
 
-    movement_types = sorted(set([(hero.movement_type, ('img', hero.movement_type_icon)) for hero in heroes]))
+    movement_types = sorted(set([(hero.movement_type, ('img', hero.movement_type_icon, hero.movement_type_human)) for hero in heroes]))
 
     books = sorted(set([(hero.book, ('txt', hero.book_human)) for hero in heroes]))
 
@@ -290,10 +293,10 @@ class HeroesList(TemplateView):
     availabilities = sorted(set([(hero.availability,
                                   ('txt', hero.availability_human)) for hero in heroes]))
 
-    origin_games = sorted(set([(hero.game_code, ('img', hero.game_icon)) for hero in heroes]))
+    origin_games = sorted(set([(hero.game_code, ('img', hero.game_icon, hero.origin_game)) for hero in heroes]))
 
     f2p_levels = sorted(set([(hero.f2p_level,
-                        ('img', hero.f2p_level_icon)) for hero in heroes]))
+                        ('img', hero.f2p_level_icon, hero.f2p_level_human)) for hero in heroes]))
 
     gender = sorted(set([(hero.gender,
                         ('txt', hero.gender)) for hero in heroes]))

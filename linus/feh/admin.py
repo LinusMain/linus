@@ -19,6 +19,7 @@ class HeroAdmin(AdminAdvancedFiltersMixin, admin.ModelAdmin):
                    'resistance',
                    'bst',
                    'generation',
+                   'harmonized_skill',
                    )
 
   search_fields = ('name',
@@ -35,6 +36,7 @@ class HeroAdmin(AdminAdvancedFiltersMixin, admin.ModelAdmin):
                  'availability',
                  'book',
                  'generation',
+                 'harmonized_skill',
                  )
   # simple list filters
 
@@ -54,7 +56,8 @@ class HeroAdmin(AdminAdvancedFiltersMixin, admin.ModelAdmin):
                             'bst',
                             'book',
                             'generation',
-                            'release_date',)
+                            'release_date',
+                            'harmonized_skill',)
 
 
 

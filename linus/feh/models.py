@@ -25,16 +25,19 @@ class AVAILABILITY(object):
   STORY = 'A_STORY'
   # Duo
   DUO = 'A_DUO'
+  # Harmonized
+  HARMONIZED = 'A_HARMONIZED'
 
 AVAILABILITY_PAIRS = (
   (AVAILABILITY.STANDARD, 'Standard Pool',),
-  (AVAILABILITY.SPECIAL, 'Special Hero',),
+  (AVAILABILITY.SPECIAL, 'Special',),
   (AVAILABILITY.GHB, 'Grand Hero Battle',),
   (AVAILABILITY.TT, 'Tempest Trials',),
-  (AVAILABILITY.LEGENDARY, 'Legendary Hero',),
-  (AVAILABILITY.MYTHIC, 'Mythic Hero',),
-  (AVAILABILITY.STORY, 'Story Hero',),
-  (AVAILABILITY.DUO, 'Duo Hero',),
+  (AVAILABILITY.LEGENDARY, 'Legendary',),
+  (AVAILABILITY.MYTHIC, 'Mythic',),
+  (AVAILABILITY.STORY, 'Story',),
+  (AVAILABILITY.DUO, 'Duo',),
+  (AVAILABILITY.HARMONIZED, 'Harmonized',),
 )
 
 AVAILABILITY_HUMAN_READABLE = dict(AVAILABILITY_PAIRS)
@@ -336,6 +339,7 @@ class Hero(models.Model):
   # 2
   generation = models.IntegerField('gen')
 
+  harmonized_skill = models.CharField(max_length=2000, blank=True, null=True, default=None)
 
   rarities = ArrayField(models.IntegerField())
 
@@ -421,6 +425,10 @@ class Hero(models.Model):
     return static('images/icons/ICON_{0}.png'.format(self.movement_type))
 
   @property
+  def movement_type_human(self):
+    return MOVEMENT_TYPE_HUMAN_READABLE.get(self.movement_type)
+
+  @property
   def game_icon(self):
     code = self.game_code
     if code:
@@ -431,6 +439,10 @@ class Hero(models.Model):
   @property
   def f2p_level_icon(self):
     return static('images/icons/ICON_{0}.png'.format(self.f2p_level))
+
+  @property
+  def f2p_level_human(self):
+    return F2P_LEVEL_HUMAN_READABLE.get(self.f2p_level)
 
   @property
   def availability_icon(self):
@@ -452,9 +464,14 @@ class Hero(models.Model):
   def game_code(self):
     return TEXT_TO_GAME_MAP.get(self.origin_game)
 
+
   @property
   def weapon_type_icon(self):
     return static('images/icons/ICON_{0}.png'.format(self.weapon_type))
+
+  @property
+  def weapon_type_human(self):
+    return WEAPON_TYPE_HUMAN_READABLE.get(self.weapon_type)
 
   @property
   def StatArray(self):

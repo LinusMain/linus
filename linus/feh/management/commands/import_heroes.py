@@ -29,6 +29,7 @@ AV_MAP = dict(
     TT=AVAILABILITY.TT,
     Legendary=AVAILABILITY.LEGENDARY,
     Duo=AVAILABILITY.DUO,
+    Harmonized=AVAILABILITY.HARMONIZED,
 )
 
 MV_MAP = dict(
@@ -201,6 +202,7 @@ class Command(BaseCommand):
           is_dancer=hero.isDancer,
           has_resplendent=('resplendent' in hero.properties),
           season=hero.season,
+          harmonized_skill=hero.harmonizedSkill or None,
           #icon_image=image_field_data,
       ), hero))
 
