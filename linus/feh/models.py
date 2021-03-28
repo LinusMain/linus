@@ -131,8 +131,8 @@ F2P_LEVEL_PAIRS = (
   (F2P_LEVEL.FOUR_STAR_STANDARD, '4* Standard Pool',),
   (F2P_LEVEL.GRAIL, 'Grail',),
   (F2P_LEVEL.FOUR_STAR_LIMITED, '4* Limited Pool',),
-  (F2P_LEVEL.FIVE_STAR_STANDARD, '3* Standard Pool',),
-  (F2P_LEVEL.FIVE_STAR_LIMITED, '3* Standard Pool',),
+  (F2P_LEVEL.FIVE_STAR_STANDARD, '5* Standard Pool',),
+  (F2P_LEVEL.FIVE_STAR_LIMITED, '5* Limited Pool',),
 )
 
 F2P_LEVEL_HUMAN_READABLE = dict(F2P_LEVEL_PAIRS)
