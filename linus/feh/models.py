@@ -437,6 +437,10 @@ class Hero(models.Model):
       return None
 
   @property
+  def game_human(self):
+    return GAME_READABLE.get(self.game_code)
+
+  @property
   def f2p_level_icon(self):
     return static('images/icons/ICON_{0}.png'.format(self.f2p_level))
 

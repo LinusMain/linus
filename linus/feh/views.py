@@ -259,7 +259,7 @@ def HeroesListAjax(request):
     herodata['availability'] = hero.availability
     herodata['skills'] = hero.skills
     herodata['origin_game'] = dict(
-        name=hero.game_code, icon=hero.game_icon, title=hero.origin_game,)
+        name=hero.game_code, icon=hero.game_icon, title=hero.game_human,)
     herodata['stripped_name'] = hero.stripped_name
     herodata['gender'] = hero.gender
     herodata['is_dancer'] = hero.is_dancer
@@ -293,7 +293,13 @@ class HeroesList(TemplateView):
     availabilities = sorted(set([(hero.availability,
                                   ('txt', hero.availability_human)) for hero in heroes]))
 
-    origin_games = sorted(set([(hero.game_code, ('img', hero.game_icon, hero.origin_game)) for hero in heroes]))
+    origin_games = sorted(
+        set(
+            [
+                (hero.game_code, ('img', hero.game_icon, hero.game_human)) for hero in heroes
+            ]
+        )
+    )
 
     f2p_levels = sorted(set([(hero.f2p_level,
                         ('img', hero.f2p_level_icon, hero.f2p_level_human)) for hero in heroes]))
