@@ -426,6 +426,9 @@ class Hero(models.Model):
     if self.name == 'Robin' and self.gender == 'Male':
       aliases.append('moro')
 
+    if self.name == 'Ingrid':
+      aliases.append('bulu')
+
     return ' '.join(aliases)
 
   @property
