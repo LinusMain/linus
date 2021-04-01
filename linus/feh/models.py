@@ -376,34 +376,57 @@ class Hero(models.Model):
 
   @property
   def alias(self):
+    aliases = []
+
     if self.artist == 'アマガイタロー':
-      return 'nino abi priestess abby aby abigail'
+      aliases.append('nino abi priestess abby aby abigail')
 
     if self.name == 'Faye':
-      return 'alm'
+      aliases.append('alm')
 
     if self.name == 'Cordelia':
-      return 'leo caloried f2p'
+      aliases.append('leo caloried f2p')
 
     if self.name == 'Lysithea':
-      return 'jail'
+      aliases.append('jail')
 
     if self.name == 'Rudolf':
-      return 'maltet bector'
+      aliases.append('maltet bector')
 
     if self.name == 'Caeda':
-      return 'misaka'
+      aliases.append('misaka')
 
     if self.name == 'Oliver':
-      return 'pororo poron'
+      aliases.append('pororo poron')
 
     if self.name == 'Linus':
-      return 'best unit in the game linoes'
+      aliases.append('best unit in the game linoes')
 
-    if self.name == 'Naga':
-      return 'useless'
+    if self.name in ['Naga', 'Sothis']:
+      aliases.append('useless')
 
-    return ''
+    if self.name == 'Nowi':
+      aliases.append('soul')
+
+    if self.title == 'Bride of Rime':
+      aliases.append('beccy')
+
+    if self.title == 'Brave Warrior':
+      aliases.append('bector chet god')
+
+    if self.harmonized_skill:
+      aliases.append('chet')
+
+    if self.name == 'Corrin':
+      aliases.append('dum')
+
+    if self.name == 'Sharena':
+      aliases.append('fire emblem heroes')
+
+    if self.name == 'Robin' and self.gender == 'Male':
+      aliases.append('moro')
+
+    return ' '.join(aliases)
 
   @property
   def max_stats(self):
