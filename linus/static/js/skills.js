@@ -99,6 +99,9 @@ $(document).ready(function () {
   var table = $('#heroes-table').DataTable({
     pageLength: 50,
     ajax: SKILLS_AJAX_URL,
+    initComplete: function (settings, json) {
+      playSharenaWav();
+    },
     columns: [
       { data: 'detailscontrol' },
       {
