@@ -377,13 +377,31 @@ class Hero(models.Model):
   @property
   def alias(self):
     if self.artist == 'アマガイタロー':
-      return 'nino abi priestess'
+      return 'nino abi priestess abby aby abigail'
+
+    if self.name == 'Faye':
+      return 'alm'
+
+    if self.name == 'Cordelia':
+      return 'leo caloried f2p'
+
+    if self.name == 'Lysithea':
+      return 'jail'
+
+    if self.name == 'Rudolf':
+      return 'maltet bector'
+
+    if self.name == 'Caeda':
+      return 'misaka'
 
     if self.name == 'Oliver':
       return 'pororo poron'
 
     if self.name == 'Linus':
-      return 'best unit in the game'
+      return 'best unit in the game linoes'
+
+    if self.name == 'Naga':
+      return 'useless'
 
     return ''
 
