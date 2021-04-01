@@ -203,6 +203,7 @@ class Command(BaseCommand):
           has_resplendent=('resplendent' in hero.properties),
           season=hero.season,
           harmonized_skill=hero.harmonizedSkill or None,
+          artist=hero.artist,
           #icon_image=image_field_data,
       ), hero))
 

@@ -311,6 +311,8 @@ class Hero(models.Model):
 
   origin_game = models.CharField(max_length=50)
 
+  artist = models.CharField(max_length=100)
+
   # for leg, mythics
   season = models.CharField(max_length=15, blank=True)
 
@@ -371,6 +373,19 @@ class Hero(models.Model):
 
   def stats(self):
     return [self.hp, self.attack, self.speed, self.defense, self.resistance]
+
+  @property
+  def alias(self):
+    if self.artist == 'アマガイタロー':
+      return 'nino abi priestess'
+
+    if self.name == 'Oliver':
+      return 'pororo poron'
+
+    if self.name == 'Linus':
+      return 'best unit in the game'
+
+    return ''
 
   @property
   def max_stats(self):
