@@ -96,9 +96,6 @@ $(document).ready(function () {
   var table = $('#heroes-table').DataTable({
     pageLength: 50,
     ajax: "/feh/heroes_ajax.json",
-    initComplete: function (settings, json) {
-      playSharenaWav();
-    },
     columns: [
       {
         data: 'full_name',
