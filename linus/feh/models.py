@@ -432,6 +432,9 @@ class Hero(models.Model):
     if self.name == 'Ingrid':
       aliases.append('bulu')
 
+    if self.name == 'Gunnthra':
+      aliases.append('rudar rudraksha')
+
     return ' '.join(aliases)
 
   @property
