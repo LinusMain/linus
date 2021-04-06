@@ -12,6 +12,7 @@ $(document).ready(function () {
       'nino': 'sonia.wav',
       'abi': 'sonia.wav',
       'priestess': 'sonia.wav',
+      'sonia': 'sonia.wav',
       'hector': 'hector.wav',
       'bector': 'hector.wav',
       'sharena': 'sharena.wav',
