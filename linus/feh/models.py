@@ -379,7 +379,10 @@ class Hero(models.Model):
     aliases = []
 
     if self.artist == 'アマガイタロー':
-      aliases.append('nino abi priestess abby aby abigail trash garbage refuse')
+      aliases.append('nino abi priestess abby aby abigail')
+
+    if self.name == 'Nino':
+      aliases.append('trash garbage refuse')
 
     if self.name == 'Faye':
       aliases.append('alm')
