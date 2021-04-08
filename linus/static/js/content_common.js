@@ -9,9 +9,9 @@ $(document).ready(function () {
      */
     const value = $(this).val().toLowerCase();
     const wavs = {
-      'nino': 'sonia.wav',
-      'abi': 'sonia.wav',
-      'priestess': 'sonia.wav',
+      'nino': 'nino.wav',
+      'abi': 'nino.wav',
+      'priestess': 'nino.wav',
       'sonia': 'sonia.wav',
       'hector': 'hector.wav',
       'bector': 'hector.wav',
