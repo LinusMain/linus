@@ -13,6 +13,8 @@ $(document).ready(function () {
       'abi': 'nino.wav',
       'priestess': 'nino.wav',
       'sonia': 'sonia.wav',
+      'trash': 'sonia.wav',
+      'garbage': 'sonia.wav',
       'hector': 'hector.wav',
       'bector': 'hector.wav',
       'sharena': 'sharena.wav',
@@ -21,6 +23,8 @@ $(document).ready(function () {
       'raven': 'linus.wav',
       'poro': 'oliver.wav',
       'oliver': 'oliver.wav',
+      'ike': 'ike.wav',
+      'bike': 'ike.wav',
     };
 
     if (value in wavs) {
