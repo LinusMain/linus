@@ -1,3 +1,4 @@
+import random
 from datetime import date
 
 from django.contrib.postgres.fields.array import ArrayField
@@ -381,7 +382,8 @@ class Hero(models.Model):
     if self.artist == 'アマガイタロー':
       aliases.append('nino abi priestess abby aby abigail')
 
-    if self.name == 'Sonia':
+    lucky_name = random.choice(['Sonia', 'Nino', 'Oliver',])
+    if self.name == lucky_name:
       aliases.append('trash garbage refuse')
 
     if self.name == 'Faye':
