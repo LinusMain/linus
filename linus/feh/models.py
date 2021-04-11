@@ -382,7 +382,7 @@ class Hero(models.Model):
     if self.artist == 'アマガイタロー':
       aliases.append('nino abi priestess abby aby abigail')
 
-    lucky_name = random.choice(['Sonia', 'Nino', 'Oliver',])
+    lucky_name = 'Sonia'
     if self.name == lucky_name:
       aliases.append('trash garbage refuse')
 
