@@ -4,7 +4,7 @@ import pickle
 import re
 import urllib.parse
 import warnings
-
+import html
 import pytz
 from w3lib.html import replace_entities
 from .poroclasses import Skill, Refine, Seal, Hero, SkillReq, Availability
@@ -28,7 +28,8 @@ def parseRawSkill(rawSkill):
         s.isSeal = True
     s.cd = tryStrToInt(rawSkill['Cooldown'])
     s.page = rawSkill['Page']
-    s.url = "https://feheroes.gamepedia.com/" + urllib.parse.quote(s.page)
+    s.url = "https://feheroes.gamepedia.com/" + html.unescape(s.page).replace(" ", "_")
+    # s.url = "https://feheroes.gamepedia.com/" + urllib.parse.quote(s.page)
     # split because Aether <= Sol,Luna
     s.required = re.split("\\s*,\\s*", rawSkill['Required'])
     s.required = removeEmptyStrings(s.required)
