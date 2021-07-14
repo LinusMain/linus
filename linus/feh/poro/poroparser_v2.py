@@ -96,7 +96,8 @@ def parseRawUnit(rawUnit):
     h.wikiName = rawUnit['WikiName']
     h.page = rawUnit['Page']
     h.pageID = rawUnit['PageID']
-    h.url = "https://feheroes.gamepedia.com/" + urllib.parse.quote(h.page)
+    h.url = "https://feheroes.gamepedia.com/" + html.unescape(h.page).replace(" ", "_")
+    # h.url = "https://feheroes.gamepedia.com/" + urllib.parse.quote(h.page)
     h.origin = rawUnit['Origin']
     h.releaseDate = rawUnit['ReleaseDate']
     h.desc = replace_entities(rawUnit['Description'].replace("&lt;br&gt;", "\n"))
